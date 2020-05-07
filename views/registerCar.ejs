@@ -1,0 +1,47 @@
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+        <div class="card card-body">
+            <h1 class="text-center mb-3">
+                <i class="fas fa-car fa-2x"></i>
+                <i class="fas fa-plus"></i> </br> Car Registration</h1>
+            
+            <div class="form-group">
+                <label for="carMake">Make</label>
+                <input type="carMake" id="carMake" name="carMake" class="form-control" placeholder="E.g. Lexus"
+                    value="<%= typeof carMake != 'undefined' ? carMake : '' %>" />
+            </div>
+
+            <div class="form-group">
+                <label for="carModel">Model</label>
+                <input type="carModel" id="carModel" name="carModel" class="form-control" placeholder="E.g. RX 400H"
+                    value="<%= typeof carModel != 'undefined' ? carModel : '' %>" />
+            </div>
+
+            <div class="form-group">
+                <label for="carkm">Kilometers</label>
+                <input type="carkm" id="carkm" name="carkm" class="form-control" placeholder="E.g. 250000"
+                    value="<%= typeof carkm != 'undefined' ? carkm : '' %>" />
+            </div>
+
+            <div class="form-group">
+                <label for="carOC">Last Oil Change</label>
+                <input type="carOC" id="carOC" name="carOC" class="form-control" placeholder="E.g. Mar 15 2020"
+                    value="<%= typeof carOC != 'undefined' ? carOC : '' %>" />
+            </div>
+
+            <div class="form-group">
+                <label for="carTransmission">Transmission</label>
+                <input type="carTransmission" id="carTransmission" name="carTransmission" class="form-control" placeholder="Automatic/Manual"
+                    value="<%= typeof carTransmission != 'undefined' ? carTransmission : '' %>" />
+            </div>
+
+            <div class="form-group">
+                <label for="carEngine">Engine</label>
+                <input type="carEngine" id="carEngine" name="carEngine" class="form-control" placeholder="Cylinder Engine"
+                    value="<%= typeof carEngine != 'undefined' ? carEngine : '' %>" />
+            </div>
+
+            
+        </div>
+    </div>
+</div>

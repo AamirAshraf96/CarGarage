@@ -15,6 +15,9 @@ router.get("/register", (req, res) => res.render("register"));
 //test page 
 router.get("/test", (req, res) => res.render("test"));
 
+//registerCar Page
+router.get("/registerCar", (req, res) => res.render("registerCar"));
+
 // Register Handle
 router.post("/register", (req, res) => {
   const { name, email, password, password2 } = req.body;
