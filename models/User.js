@@ -16,7 +16,12 @@ const UserSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  carMake: {
+    type: String, 
+    require: true
   }
+
 });
 
 const User = mongoose.model('User', UserSchema);

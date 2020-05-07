@@ -6,17 +6,24 @@ const passport = require("passport");
 // User model
 const User = require("../models/User");
 
+//Cars model
+const Cars = require("../models/Cars");
+
 //Login
 router.get("/login", (req, res) => res.render("login"));
 
 //Register Page
 router.get("/register", (req, res) => res.render("register"));
 
-//test page 
+//test page
 router.get("/test", (req, res) => res.render("test"));
 
 //registerCar Page
 router.get("/registerCar", (req, res) => res.render("registerCar"));
+
+//Cars Page
+router.get("/cars", (req, res) => res.render("cars"));
+
 
 // Register Handle
 router.post("/register", (req, res) => {
@@ -38,6 +45,7 @@ router.post("/register", (req, res) => {
     errors.push({ msg: "Password should be longer than 6 characters." });
   }
 
+  // Issue present
   if (errors.length > 0) {
     res.render("register", {
       errors,
@@ -104,6 +112,22 @@ router.get("/logout", (req, res) => {
   req.logout();
   req.flash("success_msg", "You are logged out");
   res.redirect("/users/login");
+});
+
+// Car registration Handle
+router.post("/registerCar", (req, res) => {
+  const { carMake } = req.body;
+  let errors = [];
+
+  const newCar = new Cars({
+    carMake,
+  });
+
+  newCar.save().then((cars) => {
+    // req.flash("success_msg", "You are now registered. Please log in.");
+    res.redirect("/users/cars");
+  })
+  .catch((err) => console.log(err));
 });
 
 module.exports = router;
