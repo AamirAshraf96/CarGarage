@@ -1,5 +1,6 @@
 <h1 class="mt-4">Dashboard</h1>
-<p class="lead mb-3">Welcome <%= name %></p>
+<p class="lead mb-3">Welcome <%= name %> <%= email%></p>
+
 <h1 class="text-center"> Car Gallery </h1>
 
 <style>
@@ -25,7 +26,7 @@
         clear: both;
     }
 
-    /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+    /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
     @media screen and (max-width:600px) {
         .column {
             width: 100%;
@@ -64,4 +65,5 @@
 
 </body>
 
+<p class="lead mt-4"><a href="/users/registerCar">Register Your Car</a></p>
 <a href="/users/logout" class="btn btn-secondary">Logout</a>
