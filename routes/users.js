@@ -6,6 +6,7 @@ const passport = require("passport");
 // User model
 const User = require("../models/User");
 
+
 //Cars model
 const Car = require("../models/Car");
 
@@ -116,16 +117,16 @@ router.get("/logout", (req, res) => {
 
 // Car registration Handle
 router.post("/registerCar", (req, res) => {
-  const { carMake } = req.body;
+  const { carMake, carModel, user } = req.body;
   let errors = [];
-
-  const ObjectId = require('mongodb').ObjectID;
 
   const newCar = new Car({
     carMake,
-    user: ObjectId
+    carModel,
+    user,
   });
 
+  console.log(Car._id);
 
   newCar.save().then((car) => {
     // req.flash("success_msg", "You are now registered. Please log in.");
@@ -133,7 +134,5 @@ router.post("/registerCar", (req, res) => {
   })
   .catch((err) => console.log(err));
 });
-
-
 
 module.exports = router;

@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
-const ObjectId = require('mongodb').ObjectID;
+const Schema = mongoose.Schema;
+
 
 const UserSchema = new mongoose.Schema({
+  
   name: {
     type: String,
     required: true,
@@ -18,13 +20,12 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  carMake: {
-    type: ObjectId, 
-    ref: 'Car',
-    require: true,
-  },
+  carType: [{
+    type: Schema.Types.ObjectId, 
+    ref: 'Car'
+  }],
 });
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;

@@ -1,17 +1,22 @@
 const mongoose = require("mongoose");
-const ObjectId = require('mongodb').ObjectID;
+const Schema = mongoose.Schema;
 
-const UserSchema = new mongoose.Schema({
+const UserModel = new mongoose.Schema({
   carMake: {
     type: String,
     require: true,
   },
-  user:{
-    type: ObjectId, 
-    ref: 'User',
-  }
+  carModel: {
+    type: String,
+    require: true,
+  },
+  user: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    }],
 });
 
-const Car = mongoose.model("Car", UserSchema);
+const Car = mongoose.model("Car", UserModel);
 
 module.exports = Car;
