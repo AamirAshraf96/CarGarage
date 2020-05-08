@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-
-const UserSchema = new mongoose.Schema({
-  
+const UserSchema = Schema({
   name: {
     type: String,
     required: true,
@@ -20,12 +18,12 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  carType: [{
+  carType: [{ 
     type: Schema.Types.ObjectId, 
-    ref: 'Car'
+    ref: "Car" 
   }],
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 module.exports = User;

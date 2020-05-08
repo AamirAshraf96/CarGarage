@@ -126,10 +126,9 @@ router.post("/registerCar", (req, res) => {
     user,
   });
 
-  console.log(Car._id);
-
   newCar.save().then((car) => {
-    // req.flash("success_msg", "You are now registered. Please log in.");
+    console.log(User._id);
+    console.log(Car._id);
     res.redirect("/dashboard");
   })
   .catch((err) => console.log(err));

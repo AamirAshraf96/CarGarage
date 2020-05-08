@@ -8,8 +8,6 @@ router.get("/", (req, res) => res.render("welcome"));
 router.get("/dashboard", ensureAuthenticated, (req, res) =>
   res.render("dashboard", {
     name: req.user.name,
-    email: req.user.email,
-    carMake: req.user.carMake
   })
 );
 
