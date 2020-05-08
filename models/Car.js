@@ -10,7 +10,7 @@ const UserModel = Schema({
     type: String,
     require: true,
   },
-  user: [{
+  userid: [{
     type: Schema.Types.ObjectId, 
     ref: "User"
   }]

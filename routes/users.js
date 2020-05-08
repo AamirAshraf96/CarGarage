@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 // User model
 const User = require("../models/User");
-
 
 //Cars model
 const Car = require("../models/Car");
@@ -117,18 +118,17 @@ router.get("/logout", (req, res) => {
 
 // Car registration Handle
 router.post("/registerCar", (req, res) => {
-  const { carMake, carModel, user } = req.body;
+  const { carMake, carModel, userid } = req.body;
   let errors = [];
 
   const newCar = new Car({
     carMake,
     carModel,
-    user,
+    userid
   });
 
-  newCar.save().then((car) => {
-    console.log(User._id);
-    console.log(Car._id);
+  newCar.save().then((car) => {   
+    console.log(newCar.userid);
     res.redirect("/dashboard");
   })
   .catch((err) => console.log(err));
