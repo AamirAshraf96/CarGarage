@@ -7,7 +7,7 @@ const passport = require("passport");
 const User = require("../models/User");
 
 //Cars model
-const Cars = require("../models/Cars");
+const Car = require("../models/Car");
 
 //Login
 router.get("/login", (req, res) => res.render("login"));
@@ -119,13 +119,13 @@ router.post("/registerCar", (req, res) => {
   const { carMake } = req.body;
   let errors = [];
 
-  const newCar = new Cars({
+  const newCar = new Car({
     carMake,
   });
 
-  newCar.save().then((cars) => {
+  newCar.save().then((Car) => {
     // req.flash("success_msg", "You are now registered. Please log in.");
-    res.redirect("/users/cars");
+    res.redirect("/dashboard");
   })
   .catch((err) => console.log(err));
 });
