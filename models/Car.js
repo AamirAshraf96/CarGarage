@@ -1,8 +1,9 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const UserModel = Schema({
-  carMake: {
+
+const UserModel =  new mongoose.Schema({
+    carMake: {
     type: String,
     require: true,
   },
@@ -10,12 +11,21 @@ const UserModel = Schema({
     type: String,
     require: true,
   },
-  userid: [{
+  carid: [{
     type: Schema.Types.ObjectId, 
-    ref: "User"
+    ref: 'User'
   }]
 });
 
-const Car = mongoose.model("Car", UserModel);
+
+const Car = mongoose.model('Car', UserModel);
+
+// module.exports.getUserById = function(id, callback){
+//   User.findById(id, callback);
+// }
+
+// module.exports.getUserByUsername = function(username, callback){
+//   User.findById(query, callback);
+// }
 
 module.exports = Car;

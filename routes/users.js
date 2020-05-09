@@ -11,6 +11,8 @@ const User = require("../models/User");
 //Cars model
 const Car = require("../models/Car");
 
+const app = require("../app");
+
 //Login
 router.get("/login", (req, res) => res.render("login"));
 
@@ -22,10 +24,6 @@ router.get("/test", (req, res) => res.render("test"));
 
 //registerCar Page
 router.get("/registerCar", (req, res) => res.render("registerCar"));
-
-//Cars Page
-router.get("/cars", (req, res) => res.render("cars"));
-
 
 // Register Handle
 router.post("/register", (req, res) => {
@@ -118,20 +116,22 @@ router.get("/logout", (req, res) => {
 
 // Car registration Handle
 router.post("/registerCar", (req, res) => {
-  const { carMake, carModel, userid } = req.body;
+  const { carMake, carModel, carid } = req.body;
   let errors = [];
 
   const newCar = new Car({
     carMake,
     carModel,
-    userid
+    carid,
   });
 
-  newCar.save().then((car) => {   
-    console.log(newCar.userid);
-    res.redirect("/dashboard");
-  })
-  .catch((err) => console.log(err));
+  newCar
+    .save()
+    .then((car) => {
+      console.log(newCar._id);
+      res.redirect("/dashboard");
+    })
+    .catch((err) => console.log(err));
 });
 
 module.exports = router;
