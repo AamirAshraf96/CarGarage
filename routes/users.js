@@ -133,7 +133,7 @@ router.post("/login", (req, res, next) => {
         //extracting numerical value 
         carTypefound = '' + carTypefound;
         carTypefound = carTypefound.substring(13,37);
-        User.updateOne({carType:[carTypefound]}, { $set: { carType: carType.push(newCarid) } }).then((user, callback) => {
+        User.updateOne({carType:[carTypefound]}, { $push: { carType: newCarid } }).then((user, callback) => {
           console.log('Done!');
         });
       });
