@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const mongoose = require("mongoose");
+const mongo = require("mongodb");
 const Schema = mongoose.Schema;
 
 // User model
@@ -75,14 +76,6 @@ router.post("/register", (req, res) => {
           email,
           password,
         });
-
-        module.exports = newUser;
-
-        console.log("--------------------------------");
-        console.log("New User inside of register else request body");
-        console.log(newUser);
-        console.log("--------------------------------");
-
         // Hash Password
         bcrypt.genSalt(10, (err, salt) =>
           bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -107,19 +100,54 @@ router.post("/register", (req, res) => {
   }
 });
 
+
+
+User.find({email:'aamir-ashraf@hotmail.com'}, {_id:0, carType:1}).then((user, callback) => {
+  user = '' + user;
+  user = user.substring(13,37);
+  console.log(user);
+});
+
 // Login Handle
 router.post("/login", (req, res, next) => {
   const { name, email, password, password2 } = req.body;
   let error = [];
 
-  var newUser = require('./register/newUser');
+  User.find({ email: email }, { _id: 1 }).then((user, callback) => {
+    console.log(user);
+    // Car registration Handle
+    router.post("/registerCar", (req, res) => {
+      const { carMake, carModel, carid } = req.body;
+      let errors = [];
 
-  // exports.newUser;
+      const newCar = new Car({
+        carMake,
+        carModel,
+        carid: user,
+      });
 
-  console.log("--------------------------------");
-  console.log("New User inside of login request body");
-  console.log(newUser);
-  console.log("--------------------------------");
+      const newCarid = newCar._id;
+      console.log(newCarid);
+
+      User.find({email:email}, {_id:0, carType:1}).then((carTypefound, callback) => {
+        //extracting numerical value 
+        carTypefound = '' + carTypefound;
+        carTypefound = carTypefound.substring(13,37);
+        User.updateOne({carType:[carTypefound]}, { $set: { carType: carType.push(newCarid) } }).then((user, callback) => {
+          console.log('Done!');
+        });
+      });
+
+      
+
+      newCar
+        .save()
+        .then((car) => {
+          res.redirect("/dashboard");
+        })
+        .catch((err) => console.log(err));
+    });
+  });
 
   passport.authenticate("local", {
     successRedirect: "/dashboard",
@@ -133,34 +161,6 @@ router.get("/logout", (req, res) => {
   req.logout();
   req.flash("success_msg", "You are logged out");
   res.redirect("/users/login");
-});
-
-// Car registration Handle
-router.post("/registerCar", (req, res) => {
-  const { carMake, carModel, carid } = req.body;
-  let errors = [];
-
-  console.log("--------------------------------");
-  console.log("New User inside of car registration request body");
-  console.log(newUser);
-  console.log("--------------------------------");
-
-  const newCar = new Car({
-    carMake,
-    carModel,
-    carid,
-  });
-
-  newCar
-    .save()
-    .then((car) => {
-      console.log("--------------------------------");
-      console.log("New User inside of car registration --> inside of save");
-      console.log(newUser);
-      console.log("--------------------------------");
-      res.redirect("/dashboard");
-    })
-    .catch((err) => console.log(err));
 });
 
 module.exports = router;
