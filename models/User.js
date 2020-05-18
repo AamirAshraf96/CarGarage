@@ -1,9 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-
-const UserSchema =  new mongoose.Schema({
-   name: {
+const UserSchema = new mongoose.Schema({
+  name: {
     type: String,
     required: true,
   },
@@ -19,13 +18,15 @@ const UserSchema =  new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  carType: [{ 
-    type: Schema.Types.ObjectId, 
-    ref: 'Car' 
-  }]
+  carType: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Car",
+    },
+  ],
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 // module.exports.getUserById = function(id, callback){
 //   User.findById(id, callback);

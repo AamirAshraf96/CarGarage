@@ -11,19 +11,21 @@ const User = require("../models/User");
 //Cars model
 const Car = require("../models/Car");
 
-const app = require("../app");
-
 //Login
 router.get("/login", (req, res) => res.render("login"));
 
 //Register Page
 router.get("/register", (req, res) => res.render("register"));
 
-//test page
-router.get("/test", (req, res) => res.render("test"));
-
 //registerCar Page
 router.get("/registerCar", (req, res) => res.render("registerCar"));
+
+// const newUser = new User();
+// console.log("--------------------------------");
+// console.log("New User outside of request body");
+// console.log(newUser);
+// console.log("--------------------------------");
+// exports = newUser;
 
 // Register Handle
 router.post("/register", (req, res) => {
@@ -56,7 +58,7 @@ router.post("/register", (req, res) => {
     });
   } else {
     // Validation passed
-    User.findOne({ email: email }).then((user) => {
+    User.findOne({ email: email }).then((user, callback) => {
       if (user) {
         // User exists
         errors.push({ msg: "Email is already registered" });
@@ -68,11 +70,18 @@ router.post("/register", (req, res) => {
           password2,
         });
       } else {
-        const newUser = new User({
+        const newUser = User({
           name,
           email,
           password,
         });
+
+        module.exports = newUser;
+
+        console.log("--------------------------------");
+        console.log("New User inside of register else request body");
+        console.log(newUser);
+        console.log("--------------------------------");
 
         // Hash Password
         bcrypt.genSalt(10, (err, salt) =>
@@ -100,6 +109,18 @@ router.post("/register", (req, res) => {
 
 // Login Handle
 router.post("/login", (req, res, next) => {
+  const { name, email, password, password2 } = req.body;
+  let error = [];
+
+  var newUser = require('./register/newUser');
+
+  // exports.newUser;
+
+  console.log("--------------------------------");
+  console.log("New User inside of login request body");
+  console.log(newUser);
+  console.log("--------------------------------");
+
   passport.authenticate("local", {
     successRedirect: "/dashboard",
     failureRedirect: "/users/login",
@@ -119,6 +140,11 @@ router.post("/registerCar", (req, res) => {
   const { carMake, carModel, carid } = req.body;
   let errors = [];
 
+  console.log("--------------------------------");
+  console.log("New User inside of car registration request body");
+  console.log(newUser);
+  console.log("--------------------------------");
+
   const newCar = new Car({
     carMake,
     carModel,
@@ -128,7 +154,10 @@ router.post("/registerCar", (req, res) => {
   newCar
     .save()
     .then((car) => {
-      console.log(newCar._id);
+      console.log("--------------------------------");
+      console.log("New User inside of car registration --> inside of save");
+      console.log(newUser);
+      console.log("--------------------------------");
       res.redirect("/dashboard");
     })
     .catch((err) => console.log(err));
