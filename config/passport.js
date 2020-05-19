@@ -10,19 +10,19 @@ module.exports = function (passport) {
     new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
       // Match User
       User.findOne({ email: email })
-        .then((user) => {
-          if (!user) {
+        .then((car) => {
+          if (!car) {
             return done(null, false, {
               message: "That email is not registered",
             });
           }
 
           // Match password
-          bcrypt.compare(password, user.password, (err, isMatch) => {
+          bcrypt.compare(password, car.password, (err, isMatch) => {
             if (err) throw err;
 
             if (isMatch) {
-              return done(null, user);
+              return done(null, car);
             } else {
               return done(null, false, { message: "Password incorrect" });
             }
@@ -32,13 +32,13 @@ module.exports = function (passport) {
     })
   );
 
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
+  passport.serializeUser((car, done) => {
+    done(null, car.id);
   });
 
   passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-      done(err, user);
+    User.findById(id, (err, car) => {
+      done(err, car);
     });
   });
 };

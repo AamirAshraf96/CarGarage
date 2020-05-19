@@ -28,12 +28,4 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", UserSchema);
 
-// module.exports.getUserById = function(id, callback){
-//   User.findById(id, callback);
-// }
-
-// module.exports.getUserByUsername = function(username, callback){
-//   User.findById(query, callback);
-// }
-
 module.exports = User;

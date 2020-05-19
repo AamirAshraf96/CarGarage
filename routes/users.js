@@ -21,13 +21,6 @@ router.get("/register", (req, res) => res.render("register"));
 //registerCar Page
 router.get("/registerCar", (req, res) => res.render("registerCar"));
 
-// const newUser = new User();
-// console.log("--------------------------------");
-// console.log("New User outside of request body");
-// console.log(newUser);
-// console.log("--------------------------------");
-// exports = newUser;
-
 // Register Handle
 router.post("/register", (req, res) => {
   const { name, email, password, password2 } = req.body;
@@ -100,49 +93,50 @@ router.post("/register", (req, res) => {
   }
 });
 
-
-
-User.find({email:'aamir-ashraf@hotmail.com'}, {_id:0, carType:1}).then((user, callback) => {
-  user = '' + user;
-  user = user.substring(13,37);
-  console.log(user);
-});
+User.find(
+  { email: "aamir-ashraf@hotmail.com" },
+  { _id: 0, carType: { $elemMatch: { $eq: "5ec2d8ff96937f2cf475284a" } } }
+)
+  .then((user, callback) => {
+    console.log(user);
+  })
+  .catch((error) => {
+    console.log("Could not find ID");
+  });
 
 // Login Handle
 router.post("/login", (req, res, next) => {
   const { name, email, password, password2 } = req.body;
   let error = [];
 
+  //finding User's ID
   User.find({ email: email }, { _id: 1 }).then((user, callback) => {
-    console.log(user);
     // Car registration Handle
     router.post("/registerCar", (req, res) => {
-      const { carMake, carModel, carid } = req.body;
-      let errors = [];
+      const { carMake, carModel, carkm, carOC, carTrans, carEngine, carid } = req.body;
+      let error = [];
 
       const newCar = new Car({
         carMake,
         carModel,
-        carid: user,
+        carkm,
+        carOC,
+        carTrans,
+        carEngine,
+        carid: user, //Updating Car ID with User ID
       });
 
-      const newCarid = newCar._id;
-      console.log(newCarid);
-
-      User.find({email:email}, {_id:0, carType:1}).then((carTypefound, callback) => {
-        //extracting numerical value 
-        carTypefound = '' + carTypefound;
-        carTypefound = carTypefound.substring(13,37);
-        User.updateOne({carType:[carTypefound]}, { $push: { carType: newCarid } }).then((user, callback) => {
-          console.log('Done!');
-        });
-      });
-
-      
+      //Updating User ID with Car ID
+      User.updateOne({ email: email }, { $push: { carType: newCar._id } }).then(
+        (user, callback) => {
+          console.log("Done!");
+        }
+      );
 
       newCar
         .save()
         .then((car) => {
+          console.log(car);
           res.redirect("/dashboard");
         })
         .catch((err) => console.log(err));
